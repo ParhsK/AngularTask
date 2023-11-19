@@ -1,0 +1,65 @@
+.container {
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+}
+
+.mat-mdc-raised-button.color-button {
+  background-color: rgba(84, 176, 71, 255);
+  color: white;
+  width: 200px;
+  height: 50px;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  background-color: white;
+}
+
+.header-h3 {
+  color: rgba(108, 180, 91, 255);
+}
+
+.title-icon {
+  padding-right: 10px;
+}
+
+.toolbar-header {
+  font-size: x-large;
+  color: rgba(108, 180, 91, 255);
+  display: flex;
+}
+
+.vehicles-list {
+
+  &:hover {
+    background-color: rgb(238, 238, 238);
+    border-radius: 5px;
+  }
+
+  &:active {
+    background-color: rgba(219, 243, 210, 255);
+    border-radius: 5px;
+  }
+
+  /*&: focus {
+    background-color: rgba(219,243,210,255);
+    border-radius: 5px;
+  } */
+}
+
+.mat-divider {
+  border-top-width: 4px;
+}
+
+.search-container {
+  display: flex;
+  padding-top: 50px;
+  padding-left: 20px;
+  padding-bottom: 50px;
+}
+
+.filter-box {
+  width: 200px;
+  height: 50px;
+}
