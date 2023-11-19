@@ -43,11 +43,19 @@ export class MainLayoutComponent {
     this.drivers = this.driversService.getAll();
     this.records = this.recordsService.getAll();
     this.filteredVehicles = this.vehicles;
+    this.dataSource = new MatTableDataSource<Record>();
   }
 
   ngAfterViewInit() {
-    this.dataSource = new MatTableDataSource<Record>();
-    this.dataSource.paginator = this.paginator!;
+    if (!this.dataSource) {
+      console.log("dataSource not initialized after view init");
+      return;
+    }
+    if (!this.paginator) {
+      console.log("paginator not initialized after view init");
+      return;
+    }
+    this.dataSource.paginator = this.paginator;
   }
 
   onVehicleClicked(id: number) {
