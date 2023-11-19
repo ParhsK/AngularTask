@@ -42,6 +42,7 @@ export class MainLayoutComponent {
     this.vehicles = this.vehiclesService.getAll();
     this.drivers = this.driversService.getAll();
     this.records = this.recordsService.getAll();
+    this.filteredVehicles = this.vehicles;
   }
 
   ngAfterViewInit() {
@@ -57,9 +58,9 @@ export class MainLayoutComponent {
   }
 
   filterVehicles(event: KeyboardEvent) {
-    console.log(event);
-    // const filterValue = (event.target as HTMLInputElement).value;
-    // this.vehicles.filter = filterValue.trim().toLowerCase();
-    // this.filteredVehicles = this.vehicles.filter((vehicle) => vehicle.plate === filterValue )
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.filteredVehicles = this.vehicles.filter((vehicle) =>
+      vehicle.plate.includes(filterValue)
+    );
   }
 }

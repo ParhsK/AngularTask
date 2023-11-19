@@ -10,9 +10,11 @@
     <mat-list>
       <mat-list-item
         class="vehicles-list"
-        *ngFor="let vehicle of vehicles"
+        *ngFor="let vehicle of filteredVehicles"
         (click)="onVehicleClicked(vehicle.id)"
-      >
+        [ngClass]="{
+          'vehicles-active-list-item': selectedVehicle?.id === vehicle.id,
+        }">
         <mat-icon> local_shipping</mat-icon>
         <div matListItemTitle>{{ vehicle.plate }}</div>
       </mat-list-item>
