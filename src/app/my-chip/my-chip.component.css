@@ -1,0 +1,15 @@
+.white-text {
+  color: white;
+}
+
+.green-background {
+  background-color: rgba(84,176,71,255) !important;
+}
+
+.red-background {
+  background-color: rgba(255, 0, 0, 0.76) !important;
+}
+
+.blue-background {
+  background-color: rgba(0, 82, 156, 255) !important;
+}

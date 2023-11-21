@@ -21,8 +21,9 @@ import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MyChipComponent } from './my-chip/my-chip.component';
 @NgModule({
-  declarations: [AppComponent, MainLayoutComponent],
+  declarations: [AppComponent, MainLayoutComponent, MyChipComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

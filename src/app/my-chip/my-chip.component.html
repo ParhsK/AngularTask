@@ -1,0 +1,11 @@
+<mat-chip
+  [ngClass]="{
+'red-background': color === 'red',
+'green-background': color === 'green',
+'blue-background': color === 'blue'
+}"
+>
+  <span class="white-text">
+    <ng-content></ng-content>
+  </span>
+</mat-chip>
