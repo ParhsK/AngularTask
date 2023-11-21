@@ -101,8 +101,11 @@ export class MainLayoutComponent {
     return 'Εγκεκριμένο'
   }
 
-  reformDate(date: string) {
-    return date = date.slice(6, 8) + '/' + date.slice(4, 6) + '/' + date.slice(0, 4);
+  stringToDate(date: string):Date {
+    const year = Number(date.slice(0, 4));
+    const month = Number(date.slice(4, 6));
+    const day = Number(date.slice(6, 8));
+    return new Date(year, month, day);
   }
 
   resetFilters() {
@@ -132,25 +135,17 @@ export class MainLayoutComponent {
       })
       .filter((record) => {
         const startDate = this.recordSearchForm.value.selectedStartDate;
-        if (startDate === null) {
+        if (startDate === null || startDate === undefined) {
           return true;
         }
-        const startYear = startDate?.getFullYear().toString();
-        const startMonth = (startDate!.getMonth() + 1).toString().padStart(2, '0');
-        const startDay = startDate!.getDate().toString().padStart(2, '0');
-        const startingDate = startYear + startMonth + startDay;
-        return record.issueDate >= startingDate;
+        return this.stringToDate(record.issueDate) >= startDate;
       })
       .filter((record) => {
         const endDate = this.recordSearchForm.value.selectedEndDate;
-        if (endDate === null) {
+        if (endDate === null || endDate === undefined) {
           return true;
         }
-        const endYear = endDate?.getFullYear().toString();
-        const endMonth = (endDate!.getMonth() + 1).toString().padStart(2, '0');
-        const endDay = endDate!.getDate().toString().padStart(2, '0');
-        const endingDate = endYear + endMonth + endDay;
-        return record.issueDate <= endingDate;
+        return this.stringToDate(record.issueDate) <= endDate;
       })
       .filter((record) => {
         switch (this.recordSearchForm.value.selectedState) {
