@@ -13,11 +13,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 import { MainLayoutComponent } from './main-layout/main-layout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { HttpClientModule } from '@angular/common/http';
 @NgModule({
   declarations: [AppComponent, MainLayoutComponent],
   imports: [
@@ -36,6 +39,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatPaginatorModule,
     MatListModule,
     MatDividerModule,
+    MatChipsModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

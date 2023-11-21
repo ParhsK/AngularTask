@@ -33,10 +33,18 @@
 .vehicles-active-list-item {
   background-color: rgba(219, 243, 210, 255);
   border-radius: 5px;
+  .vehicles-list-item-title {
+    color: green;
+  }
 }
 
-.vehicles-inactive-list-item {
-  background-color: white;
+.vehicles-list-item-title {
+  display: flex;
+  align-items: center;
+
+  .mat-icon {
+    padding-right: 10px;
+  }
 }
 
 .vehicles-list:hover {
@@ -53,9 +61,26 @@
   padding-top: 50px;
   padding-left: 20px;
   padding-bottom: 50px;
+  gap: 20px;
 }
 
 .filter-box {
   width: 200px;
   height: 50px;
+}
+
+.isApproved-chip {
+  background-color: rgba(84,176,71,255) !important;
+}
+
+.notApproved-chip {
+  background-color: rgba(255, 0, 0, 0.76) !important;
+}
+
+.tierAmount-chip {
+  background-color: rgba(0, 82, 156, 255) !important;
+}
+
+.white-text {
+  color: white;
 }

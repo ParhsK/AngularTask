@@ -14,9 +14,11 @@
         (click)="onVehicleClicked(vehicle.id)"
         [ngClass]="{
           'vehicles-active-list-item': selectedVehicle?.id === vehicle.id,
-        }">
-        <mat-icon> local_shipping</mat-icon>
-        <div matListItemTitle>{{ vehicle.plate }}</div>
+        }"
+      >
+        <div matListItemTitle class="vehicles-list-item-title">
+          <mat-icon fontIcon="local_shipping"> </mat-icon>{{ vehicle.plate }}
+        </div>
       </mat-list-item>
     </mat-list>
   </mat-drawer>
@@ -26,14 +28,17 @@
     </mat-toolbar>
     <mat-divider></mat-divider>
     <div>
-      <div class="search-container">
+      <form [formGroup]="recordSearchForm" class="search-container">
         <mat-form-field appearance="outline" class="filter-box">
           <mat-label> <mat-icon>search</mat-icon>Σειρά-Αριθμός</mat-label>
-          <input matInput />
+          <input matInput type="text" formControlName="selectedSerialNumber" />
         </mat-form-field>
         <mat-form-field appearance="outline" class="filter-box">
           <mat-label>Οδηγός</mat-label>
-          <mat-select value="{{ selectedDriverId }}">
+          <mat-select
+            formControlName="selectedDriverId"
+            [(value)]="selectedDriverId"
+          >
             <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{
               driver.fullName
             }}</mat-option>
@@ -42,8 +47,16 @@
         <mat-form-field appearance="outline" class="filter-box">
           <mat-label>Ημερομηνία</mat-label>
           <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" />
-            <input matEndDate placeholder="End date" />
+            <input
+              matStartDate
+              placeholder="Start date"
+              formControlName="selectedStartDate"
+            />
+            <input
+              matEndDate
+              placeholder="End date"
+              formControlName="selectedEndDate"
+            />
           </mat-date-range-input>
           <mat-datepicker-toggle
             matIconSuffix
@@ -53,14 +66,20 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="filter-box">
           <mat-label>Κατάσταση</mat-label>
-          <mat-select>
-            <mat-option value="true">Εγκεκριμένο</mat-option>
-            <mat-option value="false">Ακυρωμένο</mat-option>
-            <mat-option value="true">Όλες</mat-option>
+          <mat-select formControlName="selectedState" [(value)]="selectedState">
+            <mat-option [value]="StateOption.Approved">Εγκεκριμένο</mat-option>
+            <mat-option [value]="StateOption.Declined">Ακυρωμένο</mat-option>
+            <mat-option [value]="StateOption.All">Όλες</mat-option>
           </mat-select>
         </mat-form-field>
-        <button mat-raised-button class="color-button">Αναζήτηση</button>
-      </div>
+        <button
+          mat-raised-button
+          class="color-button"
+          (click)="onSearchClicked()"
+        >
+          Αναζήτηση
+        </button>
+      </form>
       <table mat-table [dataSource]="dataSource!" class="mat-elevation-z8">
         <ng-container matColumnDef="serialNumber">
           <th mat-header-cell *matHeaderCellDef>Σειρά-Αριθμός</th>
@@ -74,17 +93,34 @@
 
         <ng-container matColumnDef="issueDate">
           <th mat-header-cell *matHeaderCellDef>Ημερομηνία</th>
-          <td mat-cell *matCellDef="let element">{{ element.issueDate }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ reformDate(element.issueDate) }}
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="isApproved">
           <th mat-header-cell *matHeaderCellDef>Κατάσταση</th>
-          <td mat-cell *matCellDef="let element">{{ element.isApproved }}</td>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip
+              class="isApproved-chip"
+              [ngClass]="{
+              'notApproved-chip': reformIsApproved(element.isApproved) === 'Ακυρωμένο',
+            }"
+            >
+              <span class="white-text">
+                {{ reformIsApproved(element.isApproved) }}
+              </span>
+            </mat-chip>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="tierAmount">
           <th mat-header-cell *matHeaderCellDef>Κλίμακα επιβράβευσης</th>
-          <td mat-cell *matCellDef="let element">{{ element.tierAmount }}</td>
+          <td mat-cell *matCellDef="let element">
+            <mat-chip class="tierAmount-chip">
+              <span class="white-text">{{ element.tierAmount }}</span>
+            </mat-chip>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="registrationAmount">
@@ -103,7 +139,9 @@
 
         <ng-container matColumnDef="rewardAmount">
           <th mat-header-cell *matHeaderCellDef>Ποσό επιβράβευσης</th>
-          <td mat-cell *matCellDef="let element">{{ element.rewardAmount }} €</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.rewardAmount }} €
+          </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
