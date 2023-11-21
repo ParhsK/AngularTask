@@ -29,6 +29,7 @@ export class MainLayoutComponent {
   selectedDriverId?: number;
   selectedVehicle?: Vehicle;
   dataSource?: MatTableDataSource<Record>;
+  defaultRecordSearchFormValues: any;
 
   recordSearchForm = new FormGroup({
     selectedSerialNumber: new FormControl(''),
@@ -63,6 +64,7 @@ export class MainLayoutComponent {
     this.records = this.recordsService.getAll();
     this.filteredVehicles = this.vehicles;
     this.dataSource = new MatTableDataSource<Record>();
+    this.defaultRecordSearchFormValues = this.recordSearchForm.value;
   }
 
   ngAfterViewInit() {
@@ -78,6 +80,7 @@ export class MainLayoutComponent {
   }
 
   onVehicleClicked(id: number) {
+    this.resetFilters();
     this.selectedVehicle = this.vehicles.find((vehicle) => id === vehicle.id);
     this.dataSource!.data = this.records.filter(
       (record) => record.plate === this.selectedVehicle?.plate
@@ -102,8 +105,11 @@ export class MainLayoutComponent {
     return date = date.slice(6, 8) + '/' + date.slice(4, 6) + '/' + date.slice(0, 4);
   }
 
+  resetFilters() {
+      this.recordSearchForm.reset(this.defaultRecordSearchFormValues);
+  }
+
   onSearchClicked() {
-    console.log('search clicked!', this.recordSearchForm.value);
     this.dataSource!.data = this.records
       .filter((record) => record.plate === this.selectedVehicle?.plate)
       .filter((record) => {
