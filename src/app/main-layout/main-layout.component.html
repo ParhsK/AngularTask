@@ -35,7 +35,6 @@
           <mat-label>Οδηγός</mat-label>
           <mat-select
             formControlName="selectedDriverId"
-            [(value)]="selectedDriverId"
           >
             <mat-option *ngFor="let driver of drivers" [value]="driver.id">{{
               driver.fullName
@@ -64,7 +63,7 @@
         </mat-form-field>
         <mat-form-field appearance="outline" class="filter-box">
           <mat-label>Κατάσταση</mat-label>
-          <mat-select formControlName="selectedState" [(value)]="selectedState">
+          <mat-select formControlName="selectedState">
             <mat-option [value]="StateOption.Approved">Εγκεκριμένο</mat-option>
             <mat-option [value]="StateOption.Declined">Ακυρωμένο</mat-option>
             <mat-option [value]="StateOption.All">Όλες</mat-option>

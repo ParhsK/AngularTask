@@ -23,12 +23,6 @@ export class MainLayoutComponent {
   drivers: Driver[] = [];
   records: Record[] = [];
   filteredVehicles: Vehicle[] = [];
-  selectedSerialNumber?: string;
-  selectedState?: StateOption;
-  selectedStartDate?: string;
-  selectedEndDate?: string;
-  selectedDriverId?: number;
-  selectedVehicle?: Vehicle;
   dataSource?: MatTableDataSource<Record>;
   defaultRecordSearchFormValues: any;
   selectedVehiclePlate: string | null = '';
