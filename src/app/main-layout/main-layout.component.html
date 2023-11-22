@@ -11,10 +11,8 @@
       <mat-list-item
         class="vehicles-list"
         *ngFor="let vehicle of filteredVehicles"
-        (click)="onVehicleClicked(vehicle.id)"
-        [ngClass]="{
-          'vehicles-active-list-item': selectedVehicle?.id === vehicle.id,
-        }"
+        [routerLink]="'/plate/'+vehicle.plate"
+        routerLinkActive="vehicles-active-list-item"
       >
         <div matListItemTitle class="vehicles-list-item-title">
           <mat-icon fontIcon="local_shipping"> </mat-icon>{{ vehicle.plate }}
@@ -24,7 +22,7 @@
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar>
-      <span class="toolbar-header">{{ selectedVehicle?.plate }}</span>
+      <span class="toolbar-header">{{ selectedVehiclePlate }}</span>
     </mat-toolbar>
     <mat-divider></mat-divider>
     <div>

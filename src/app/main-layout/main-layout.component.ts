@@ -5,6 +5,7 @@ import { Record, RecordsService } from '../services/records.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
 
 enum StateOption {
   Approved,
@@ -30,6 +31,7 @@ export class MainLayoutComponent {
   selectedVehicle?: Vehicle;
   dataSource?: MatTableDataSource<Record>;
   defaultRecordSearchFormValues: any;
+  selectedVehiclePlate: string | null = '';
 
   recordSearchForm = new FormGroup({
     selectedSerialNumber: new FormControl(''),
@@ -55,7 +57,8 @@ export class MainLayoutComponent {
   constructor(
     private vehiclesService: VehiclesService,
     private driversService: DriversService,
-    private recordsService: RecordsService
+    private recordsService: RecordsService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -65,56 +68,72 @@ export class MainLayoutComponent {
     this.filteredVehicles = this.vehicles;
     this.dataSource = new MatTableDataSource<Record>();
     this.defaultRecordSearchFormValues = this.recordSearchForm.value;
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.selectedVehiclePlate = params.get('id');
+      this.loadVehicleData(this.selectedVehiclePlate);
+    });
   }
 
   ngAfterViewInit() {
     if (!this.dataSource) {
-      console.log('dataSource not initialized after view init');
+      console.warn('dataSource not initialized after view init');
       return;
     }
     if (!this.paginator) {
-      console.log('paginator not initialized after view init');
+      console.warn('paginator not initialized after view init');
       return;
     }
     this.dataSource.paginator = this.paginator;
   }
 
-  onVehicleClicked(id: number) {
+  loadVehicleData(plate: string | null) {
     this.resetFilters();
-    this.selectedVehicle = this.vehicles.find((vehicle) => id === vehicle.id);
+    if ( !this.dataSource ) {
+      console.warn("dataSource not initialized when loading vehicle data");
+      return;
+    }
+    if ( plate === null ) {
+      this.dataSource!.data = this.records;
+      return;
+    }
     this.dataSource!.data = this.records.filter(
-      (record) => record.plate === this.selectedVehicle?.plate
+      (record) => record.plate === plate
     );
   }
 
-  filterVehicles(event: KeyboardEvent) {
+  filterVehicles(event: KeyboardEvent): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.filteredVehicles = this.vehicles.filter((vehicle) =>
       vehicle.plate.includes(filterValue)
     );
   }
 
-  reformIsApproved(isApproved: boolean) {
+  reformIsApproved(isApproved: boolean): string {
     if (isApproved === !true) {
       return 'Ακυρωμένο';
     }
-    return 'Εγκεκριμένο'
+    return 'Εγκεκριμένο';
   }
 
-  stringToDate(date: string):Date {
+  stringToDate(date: string): Date {
     const year = Number(date.slice(0, 4));
     const month = Number(date.slice(4, 6));
     const day = Number(date.slice(6, 8));
     return new Date(year, month, day);
   }
 
-  resetFilters() {
-      this.recordSearchForm.reset(this.defaultRecordSearchFormValues);
+  resetFilters(): void {
+    this.recordSearchForm.reset(this.defaultRecordSearchFormValues);
   }
 
-  onSearchClicked() {
+  onSearchClicked(): void {
     this.dataSource!.data = this.records
-      .filter((record) => record.plate === this.selectedVehicle?.plate)
+      .filter((record) => {
+        if ( this.selectedVehiclePlate) {
+          return record.plate === this.selectedVehiclePlate;
+        }
+        return true;
+      })
       .filter((record) => {
         if (this.recordSearchForm.value.selectedSerialNumber === '') {
           return true;

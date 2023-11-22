@@ -15,6 +15,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatChipsModule } from '@angular/material/chips';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing/app-routing.module';
 
 
 import { AppComponent } from './app.component';
@@ -25,6 +26,7 @@ import { MyChipComponent } from './my-chip/my-chip.component';
 @NgModule({
   declarations: [AppComponent, MainLayoutComponent, MyChipComponent],
   imports: [
+    AppRoutingModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatToolbarModule,
